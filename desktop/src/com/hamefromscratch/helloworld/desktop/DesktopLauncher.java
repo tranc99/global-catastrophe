@@ -3,7 +3,7 @@ package com.hamefromscratch.helloworld.desktop;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.hamefromscratch.helloworld.GraphicsDemo;
-import com.hamefromscratch.helloworld.HelloWorld;
+import com.hamefromscratch.helloworld.PixelMapDemo;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
