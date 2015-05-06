@@ -4,15 +4,20 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 
 public class GraphicsDemo implements ApplicationListener {
 	
 	private SpriteBatch batch;
-	private Texture texture;
+	private TextureAtlas textureAtlas;
 	private Sprite sprite;
+	private int currentFrame = 1;
+	private String currentAtlasKey = new String("0001");
 
 	
 	@Override
@@ -20,8 +25,26 @@ public class GraphicsDemo implements ApplicationListener {
         Gdx.app.log("AssetPath", Gdx.files.internal("data/image.png").file().getAbsolutePath());
         batch = new SpriteBatch();
         //texture = new Texture(Gdx.files.internal("data/image.png"));
-        texture = new Texture(Gdx.files.getFileHandle("data/image.png", Files.FileType.Internal));
-        sprite = new Sprite(texture);
+        textureAtlas = new TextureAtlas(Gdx.files.getFileHandle("data/data/spritesheet.atlas", Files.FileType.Internal));
+        AtlasRegion region = textureAtlas.findRegion("0001");
+        
+        sprite = new Sprite(region);
+        sprite.setPosition(120, 100);
+        sprite.scale(2.5f);
+        Timer.schedule(new Task () {
+
+			@Override
+			public void run() {
+				currentFrame++;
+				if(currentFrame > 20)
+                    currentFrame = 1;
+
+                currentAtlasKey = String.format("%04d", currentFrame);
+                sprite.setRegion(textureAtlas.findRegion(currentAtlasKey));
+			}
+        	
+        }
+        , 0,1/30.0f);
 
 	}
 
@@ -33,7 +56,7 @@ public class GraphicsDemo implements ApplicationListener {
 
 	@Override
 	public void render() {
-		Gdx.gl.glClearColor(1, 1, 1, 1);
+		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		batch.begin();
@@ -57,8 +80,7 @@ public class GraphicsDemo implements ApplicationListener {
 	@Override
 	public void dispose() {
 		batch.dispose();
-		texture.dispose();
-		
+		textureAtlas.dispose();
 	}
 
 }
