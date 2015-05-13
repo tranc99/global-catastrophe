@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.hamefromscratch.helloworld.CameraDemo;
+import com.hamefromscratch.helloworld.SceneDemo;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override
@@ -16,6 +16,6 @@ public class AndroidLauncher extends AndroidApplication {
         config.useCompass = true;
 
 
-        initialize(new CameraDemo(), config);
+        initialize(new SceneDemo(), config);
 	}
 }
